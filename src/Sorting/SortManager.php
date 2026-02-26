@@ -104,7 +104,7 @@ class SortManager
 
     public function fromRequest(string $param = 'sort'): self
     {
-        $sortParam = $this->request->get($param);
+        $sortParam = $this->request->input($param);
         
         if ($sortParam) {
             $this->parseSortParam($sortParam);
@@ -223,7 +223,7 @@ class SortManager
         $currentParams = $this->request->query();
         $currentParams['sort'] = $direction === 'desc' ? "-{$field}" : $field;
 
-        return $this->request->url() . '?' . http_build_query($currentParams);
+        return $this->request->path() . '?' . http_build_query($currentParams);
     }
 
     public function getToggleSortUrl(string $field): string

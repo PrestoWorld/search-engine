@@ -28,7 +28,7 @@ class TNTSearchAdapter implements SearchEngineInterface
             'storage'   => $this->storagePath,
             'driver'    => $this->config['driver'] ?? 'sqlite',
             'host'      => $this->config['host'] ?? 'localhost',
-            'database'  => $this->config['database'] ?? '',
+            'database'  => !empty($this->config['database']) ? $this->config['database'] : ':memory:',
             'username'  => $this->config['username'] ?? '',
             'password'  => $this->config['password'] ?? '',
             'port'      => $this->config['port'] ?? 3306,
@@ -42,6 +42,7 @@ class TNTSearchAdapter implements SearchEngineInterface
 
     public function index(string $index, array $documents): void
     {
+        echo "TNTSearch: Creating index {$index} in {$this->storagePath}" . PHP_EOL;
         $indexer = $this->tnt->createIndex("{$index}.index");
         
         foreach ($documents as $document) {

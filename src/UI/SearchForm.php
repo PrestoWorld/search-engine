@@ -34,7 +34,7 @@ class SearchForm
 
     public function __construct(string $action = '', string $method = 'GET')
     {
-        $this->action = $action ?? app(Request::class)->url();
+        $this->action = $action ?: app(Request::class)->path();
         $this->filterManager = new FilterManager();
         $this->sortManager = new SortManager();
     }
@@ -270,7 +270,7 @@ class SearchForm
         $html .= ' method="' . htmlspecialchars($this->method) . '"';
         
         foreach ($this->attributes as $name => $value) {
-            $html .= ' ' . $name . '="' . htmlspecialchars($value) . '"';
+            $html .= ' ' . $name . '="' . htmlspecialchars((string) $value) . '"';
         }
         
         $html .= '>';
@@ -287,7 +287,7 @@ class SearchForm
 
         // Hidden fields
         foreach ($this->hiddenFields as $name => $value) {
-            $html .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '">';
+            $html .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars((string) $value) . '">';
         }
 
         // Buttons
@@ -359,7 +359,7 @@ class SearchForm
         $html .= ' placeholder="' . htmlspecialchars($field['placeholder']) . '"';
         
         foreach ($field['attributes'] as $name => $value) {
-            $html .= ' ' . $name . '="' . htmlspecialchars($value) . '"';
+            $html .= ' ' . $name . '="' . htmlspecialchars((string) $value) . '"';
         }
         
         $html .= '></div>';
@@ -376,7 +376,7 @@ class SearchForm
         $html .= ' class="' . $this->cssClasses['select'] . '"';
         
         foreach ($field['attributes'] as $name => $value) {
-            $html .= ' ' . $name . '="' . htmlspecialchars($value) . '"';
+            $html .= ' ' . $name . '="' . htmlspecialchars((string) $value) . '"';
         }
         
         $html .= '>';
@@ -387,7 +387,7 @@ class SearchForm
         
         foreach ($field['options'] as $value => $label) {
             $selected = ($field['value'] ?? '') == (string) $value ? 'selected' : '';
-            $html .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . '>' . htmlspecialchars($label) . '</option>';
+            $html .= '<option value="' . htmlspecialchars((string) $value) . '" ' . $selected . '>' . htmlspecialchars($label) . '</option>';
         }
         
         $html .= '</select></div>';
@@ -404,7 +404,7 @@ class SearchForm
             $checked = is_array($field['value']) && in_array((string) $value, $field['value']) ? 'checked' : '';
             $html .= '<label class="checkbox-label">';
             $html .= '<input type="checkbox" name="' . htmlspecialchars($field['field']) . '[]"';
-            $html .= ' value="' . htmlspecialchars($value) . '" ' . $checked;
+            $html .= ' value="' . htmlspecialchars((string) $value) . '" ' . $checked;
             $html .= ' class="' . $this->cssClasses['input'] . '">';
             $html .= ' ' . htmlspecialchars($label);
             $html .= '</label>';
@@ -422,12 +422,12 @@ class SearchForm
         $html .= '<div class="range-inputs">';
         $html .= '<input type="text" name="' . htmlspecialchars($field['field']) . '_min"';
         $html .= ' placeholder="' . htmlspecialchars($field['min_placeholder']) . '"';
-        $html .= ' value="' . htmlspecialchars($field['min'] ?? '') . '"';
+        $html .= ' value="' . htmlspecialchars((string) ($field['min'] ?? '')) . '"';
         $html .= ' class="' . $this->cssClasses['input'] . '">';
         $html .= '<span>to</span>';
         $html .= '<input type="text" name="' . htmlspecialchars($field['field']) . '_max"';
         $html .= ' placeholder="' . htmlspecialchars($field['max_placeholder']) . '"';
-        $html .= ' value="' . htmlspecialchars($field['max'] ?? '') . '"';
+        $html .= ' value="' . htmlspecialchars((string) ($field['max'] ?? '')) . '"';
         $html .= ' class="' . $this->cssClasses['input'] . '">';
         $html .= '</div></div>';
         
@@ -441,12 +441,12 @@ class SearchForm
         $html .= '<div class="date-range-inputs">';
         $html .= '<input type="date" name="' . htmlspecialchars($field['field']) . '_min"';
         $html .= ' placeholder="' . htmlspecialchars($field['min_placeholder']) . '"';
-        $html .= ' value="' . htmlspecialchars($field['min'] ?? '') . '"';
+        $html .= ' value="' . htmlspecialchars((string) ($field['min'] ?? '')) . '"';
         $html .= ' class="' . $this->cssClasses['input'] . '">';
         $html .= '<span>to</span>';
         $html .= '<input type="date" name="' . htmlspecialchars($field['field']) . '_max"';
         $html .= ' placeholder="' . htmlspecialchars($field['max_placeholder']) . '"';
-        $html .= ' value="' . htmlspecialchars($field['max'] ?? '') . '"';
+        $html .= ' value="' . htmlspecialchars((string) ($field['max'] ?? '')) . '"';
         $html .= ' class="' . $this->cssClasses['input'] . '">';
         $html .= '</div></div>';
         
@@ -476,14 +476,14 @@ class SearchForm
         $html .= ' class="' . $this->cssClasses['select'] . '"';
         
         foreach ($field['attributes'] as $name => $value) {
-            $html .= ' ' . $name . '="' . htmlspecialchars($value) . '"';
+            $html .= ' ' . $name . '="' . htmlspecialchars((string) $value) . '"';
         }
         
         $html .= '>';
         
         foreach ($field['options'] as $value => $label) {
             $selected = ($field['value'] ?? '') == (string) $value ? 'selected' : '';
-            $html .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . '>' . htmlspecialchars($label) . '</option>';
+            $html .= '<option value="' . htmlspecialchars((string) $value) . '" ' . $selected . '>' . htmlspecialchars($label) . '</option>';
         }
         
         $html .= '</select></div>';
