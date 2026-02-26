@@ -85,7 +85,10 @@ class TNTSearchAdapter implements SearchEngineInterface
 
     public function search(string $index, string $query, array $options = []): array
     {
+        error_log("TNTSearchAdapter: storagePath='{$this->storagePath}'");
+        error_log("TNTSearchAdapter: Searching index '{$index}' for '{$query}'");
         if (!$this->indexExists($index)) {
+            error_log("TNTSearchAdapter: Index '{$index}' does not exist at " . $this->storagePath . "/{$index}.index");
             return [];
         }
 
@@ -99,6 +102,7 @@ class TNTSearchAdapter implements SearchEngineInterface
         }
 
         $results = $this->tnt->search($query, $limit);
+        error_log("TNTSearchAdapter: Raw results: " . json_encode($results));
         
         return $this->formatSearchResults($results);
     }
@@ -152,14 +156,20 @@ class TNTSearchAdapter implements SearchEngineInterface
     {
         $formatted = [];
         
-        foreach ($results['ids'] as $key => $id) {
-            $formatted[] = [
-                'id' => $id,
-                'score' => $results['scores'][$key] ?? 0,
-                'document' => $results['documents'][$key] ?? [],
-            ];
+        if (isset($results['ids'])) {
+            foreach ($results['ids'] as $key => $id) {
+                $formatted[] = [
+                    'id' => (string) $id,
+                    'score' => $results['scores'][$key] ?? 0,
+                    'document' => $results['documents'][$key] ?? [],
+                ];
+            }
         }
         
-        return $formatted;
+        return [
+            'results' => $formatted,
+            'found' => $results['hits'] ?? count($formatted),
+            'execution_time_ms' => $results['execution_time'] ?? 0,
+        ];
     }
 }

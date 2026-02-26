@@ -64,9 +64,9 @@ class SearchConfig
             'default_adapter' => 'tntsearch',
             'adapters' => [
                 'tntsearch' => [
-                    'storage_path' => storage_path('app/search'),
+                    'storage_path' => storage_path('app/search-engine'),
                     'driver' => 'sqlite',
-                    'searchable_fields' => ['title', 'content'],
+                    'searchable_fields' => ['name', 'description', 'category', 'features'],
                     'fuzziness' => false,
                 ],
                 'typesense' => [
