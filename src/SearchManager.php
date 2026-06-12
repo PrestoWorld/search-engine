@@ -8,8 +8,9 @@ use Prestoworld\SearchEngine\Contracts\SearchEngineInterface;
 use Prestoworld\SearchEngine\Adapters\TNTSearchAdapter;
 use Prestoworld\SearchEngine\Adapters\TypesenseAdapter;
 use Prestoworld\SearchEngine\Adapters\MeilisearchAdapter;
+use Witals\Framework\Contracts\ResettableInterface;
 
-class SearchManager
+class SearchManager implements ResettableInterface
 {
     private ?SearchEngineInterface $adapter = null;
     private array $config;
@@ -177,5 +178,14 @@ class SearchManager
 
         $this->adapter = $originalAdapter;
         return $results;
+    }
+
+    /**
+     * Reset the manager state.
+     * Useful for long-running environments like RoadRunner.
+     */
+    public function reset(): void
+    {
+        $this->adapter = null;
     }
 }

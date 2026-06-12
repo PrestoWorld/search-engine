@@ -46,7 +46,7 @@ class TNTSearchAdapter implements SearchEngineInterface
         $indexer = $this->tnt->createIndex("{$index}.index");
         
         foreach ($documents as $document) {
-            $id = $document['id'] ?? uniqid();
+            $id = $document['id'] ?? bin2hex(random_bytes(16));
             $content = $this->prepareDocumentContent($document);
             $indexer->insert(['id' => $id, 'content' => $content]);
         }
@@ -60,7 +60,7 @@ class TNTSearchAdapter implements SearchEngineInterface
         }
 
         $this->tnt->selectIndex("{$index}.index");
-        $id = $document['id'] ?? uniqid();
+        $id = $document['id'] ?? bin2hex(random_bytes(16));
         $content = $this->prepareDocumentContent($document);
         
         $this->tnt->insert(['id' => $id, 'content' => $content]);
