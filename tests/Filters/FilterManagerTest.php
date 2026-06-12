@@ -14,8 +14,7 @@ class FilterManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $request = $this->createMock(Request::class);
-        $request->method('input')->willReturn(null);
+        $request = new \TestRequest();
         $this->manager = new FilterManager($request);
     }
 

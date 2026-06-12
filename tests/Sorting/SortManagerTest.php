@@ -6,7 +6,6 @@ namespace Prestoworld\SearchEngine\Tests\Sorting;
 
 use PHPUnit\Framework\TestCase;
 use Prestoworld\SearchEngine\Sorting\SortManager;
-use Witals\Framework\Http\Request;
 
 class SortManagerTest extends TestCase
 {
@@ -14,11 +13,7 @@ class SortManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $request = $this->createMock(Request::class);
-        $request->method('input')->willReturn(null);
-        $request->method('query')->willReturn([]);
-        $request->method('path')->willReturn('/search');
-        $this->manager = new SortManager($request);
+        $this->manager = new SortManager(new \TestRequest());
         $this->manager->register('created_at', ['label' => 'Created At', 'direction' => 'desc']);
         $this->manager->register('price', ['label' => 'Price']);
         $this->manager->register('name', ['label' => 'Name', 'direction' => 'asc']);
