@@ -7,6 +7,11 @@
             "Prestoworld\\SearchEngine\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Prestoworld\\SearchEngine\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Puleeno Nguyen",
